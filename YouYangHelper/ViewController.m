@@ -8,8 +8,14 @@
 
 #import "ViewController.h"
 
-@implementation ViewController
 
+@implementation ViewController
+@synthesize startButton,pauseButton,cancelButton;
+@synthesize aerobicsSlider,restSlider,loopSlider;
+@synthesize aerobicsLable,restLable,loopLable;
+@synthesize minute,second,millisecond;
+@synthesize myTimer;
+@synthesize strSecond,strMinute;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -17,15 +23,133 @@
 }
 
 #pragma mark - View lifecycle
+-(void) myTimerAction:(NSTimer *) timer
+{
 
+    if (intMillisecond%1000==0) {
+       //intMillisecond=0;
+        intSecond++;
+    }
+    if (intSecond%60==0) {
+        intSecond=0;
+        intMinute++;
+        if(intMinute == intAerobicsTimes)
+        {
+            intMinute = 0;
+            
+            
+        }
+    }
+    NSString *strMillisecond = [NSString stringWithFormat:@"%d", intMillisecond];
+    if (intSecond<10) {
+        strSecond = [NSString stringWithFormat:@"0%d", intSecond];
+    }else {
+        
+    strSecond = [NSString stringWithFormat:@"%d", intSecond];
+    }
+    if(intMinute<10)
+    {
+        strMinute = [NSString stringWithFormat:@"0%d", intMinute];
+    }else {
+       strMinute = [NSString stringWithFormat:@"%d", intMinute];
+    }
+    
+    [millisecond setText:strMillisecond];
+    [second setText:strSecond];
+    [minute setText:strMinute];
+  
+}
+-(void)playSound
+{
+    NSString *path = [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] pathForResource:@"Tock" ofType:@"aiff"];
+    SystemSoundID soundID;
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundID);
+    AudioServicesPlaySystemSound(soundID);
+    AudioServicesDisposeSystemSoundID(soundID);
+       
+}
+-(IBAction) startButtonClicked:(id) sender
+{
+    [startButton setHidden:TRUE];
+    [pauseButton setHidden:FALSE];
+    [cancelButton setHidden:FALSE ];
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
+                        selector:@selector(myTimerAction:) userInfo:nil repeats:YES];
+    [self playSound];
+    
+
+}
+
+-(IBAction)cancelButtonClicked:(id)sender
+{
+    [myTimer invalidate];
+    [second setText:@"00"];
+    [minute setText:@"00"];
+    [millisecond setText:@"0"];
+    [pauseButton setHidden:TRUE];
+    [cancelButton setHidden:TRUE];
+    [startButton setHidden:FALSE];
+}
+-(IBAction)pauseButtonClicked:(id)sender
+{
+    if (boolPause) {
+        myTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
+                                                 selector:@selector(myTimerAction:) userInfo:nil repeats:YES];
+        boolPause=FALSE;
+        [pauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+    }
+    else{
+        [pauseButton setTitle:@"Resume" forState:UIControlStateNormal];
+        [myTimer invalidate];
+        boolPause=TRUE;
+    }
+}
+-(void)setAerobicsLable
+{
+    NSString *strAerobics = [NSString stringWithFormat:@"%d Minutes", intAerobicsTimes];
+    [aerobicsLable setText:strAerobics];
+}
+-(void)setRestLable
+{
+    NSString *strRest = [NSString stringWithFormat:@"%d Minutes", intRestTimes];
+    [restLable setText:strRest];
+}
+-(void)setLoopLable
+{
+    NSString *strLoop = [NSString stringWithFormat:@"%d Times", intLoopTimes];
+    [loopLable setText:strLoop];
+}
+-(IBAction)aerobicsSliderChangeValue:(id)sender{
+    UISlider *slider = (UISlider *) sender;
+    intAerobicsTimes = (int)(slider.value);
+    [self setAerobicsLable];
+}
+-(IBAction)restSliderChangeValue:(id)sender{
+    UISlider *slider = (UISlider *) sender;
+    intRestTimes = (int)(slider.value);
+    [self setRestLable];
+}
+-(IBAction)loopSliderChangeValue:(id)sender{
+    UISlider *slider = (UISlider *) sender;
+    intLoopTimes = (int)(slider.value);
+    [self setLoopLable];
+}
 - (void)viewDidLoad
 {
+    intAerobicsTimes=3;
+    intRestTimes=3;
+    intLoopTimes=3;
+    [self setAerobicsLable];
+    [self setLoopLable];
+    [self setRestLable];
+    boolPause=FALSE;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload
 {
+
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
