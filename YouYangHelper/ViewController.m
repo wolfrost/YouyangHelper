@@ -36,8 +36,7 @@
         if(intMinute == intAerobicsTimes)
         {
             intMinute = 0;
-            
-            
+             
         }
     }
     NSString *strMillisecond = [NSString stringWithFormat:@"%d", intMillisecond];
@@ -62,19 +61,36 @@
 -(void)playSound
 {
     NSString *path = [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] pathForResource:@"Tock" ofType:@"aiff"];
-    SystemSoundID soundID;
+    
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundID);
     AudioServicesPlaySystemSound(soundID);
-    AudioServicesDisposeSystemSoundID(soundID);
-       
+      
+}
+-(void)startTimer
+{
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
+                                             selector:@selector(myTimerAction:) userInfo:nil repeats:YES];
+    
+}
+-(void)stopTimer
+{
+    [myTimer invalidate];
+}
+-(BOOL)isTimerValid
+{
+    [self startTimer];
+    [self stopTimer];
+    if ([myTimer isValid]==YES) {
+        return YES;
+    }
+    return NO;
 }
 -(IBAction) startButtonClicked:(id) sender
 {
     [startButton setHidden:TRUE];
     [pauseButton setHidden:FALSE];
     [cancelButton setHidden:FALSE ];
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
-                        selector:@selector(myTimerAction:) userInfo:nil repeats:YES];
+    [self startTimer];
     [self playSound];
     
 
@@ -82,25 +98,35 @@
 
 -(IBAction)cancelButtonClicked:(id)sender
 {
-    [myTimer invalidate];
+    if([self isTimerValid]==YES){
+        [self stopTimer];
+    }
+   
     [second setText:@"00"];
     [minute setText:@"00"];
     [millisecond setText:@"0"];
     [pauseButton setHidden:TRUE];
     [cancelButton setHidden:TRUE];
     [startButton setHidden:FALSE];
+    intSecond=0;
+    intMinute=0;
 }
 -(IBAction)pauseButtonClicked:(id)sender
 {
     if (boolPause) {
-        myTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
-                                                 selector:@selector(myTimerAction:) userInfo:nil repeats:YES];
+        [self startTimer];
         boolPause=FALSE;
+        [pauseButton setTitle:@"Pause" forState:UIControlStateHighlighted];
         [pauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+        
     }
     else{
+        [pauseButton setTitle:@"Resume" forState:UIControlStateHighlighted];
         [pauseButton setTitle:@"Resume" forState:UIControlStateNormal];
-        [myTimer invalidate];
+        if([self isTimerValid]==YES)
+        {
+            [self stopTimer];
+        }
         boolPause=TRUE;
     }
 }
@@ -150,6 +176,8 @@
 - (void)viewDidUnload
 {
 
+    AudioServicesDisposeSystemSoundID(soundID);
+    
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

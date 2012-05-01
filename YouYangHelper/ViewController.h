@@ -32,6 +32,7 @@
     IBOutlet UILabel *aerobicsLable;
     IBOutlet UILabel *restLable;
     IBOutlet UILabel *loopLable;
+    SystemSoundID soundID;
 }
 @property (nonatomic, retain) UILabel *aerobicsLable;
 @property (nonatomic, retain) UILabel *restLable;
@@ -52,4 +53,6 @@
 -(void)setRestLable;
 -(void)setLoopLable;
 -(void)playSound;
+-(IBAction)pauseButtonClicked:(id)sender;
+
 @end
