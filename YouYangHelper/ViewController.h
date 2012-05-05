@@ -23,7 +23,9 @@
     NSInteger intMillisecond;
     NSInteger intMinute;
     NSTimer *myTimer;
+    NSTimer *restTimer;
     BOOL boolPause;
+    BOOL boolDoing;
     NSInteger intAerobicsTimes;
     NSInteger intRestTimes;
     NSInteger intLoopTimes;
@@ -33,12 +35,16 @@
     IBOutlet UILabel *restLable;
     IBOutlet UILabel *loopLable;
     SystemSoundID soundID;
+    NSString *strMillisecond;
+
 }
+@property (nonatomic, retain) NSTimer *restTimer;
 @property (nonatomic, retain) UILabel *aerobicsLable;
 @property (nonatomic, retain) UILabel *restLable;
 @property (nonatomic, retain) UILabel *loopLable;
 @property (nonatomic, retain) NSString *strSecond;
 @property (nonatomic, retain) NSString *strMinute;
+@property (nonatomic, retain) NSString *strMillisecond;
 @property (nonatomic, retain) NSTimer *myTimer;
 @property (nonatomic, retain) UILabel *minute;
 @property (nonatomic, retain) UILabel *second;
@@ -53,6 +59,8 @@
 -(void)setRestLable;
 -(void)setLoopLable;
 -(void)playSound;
+-(void)setTimerValue;
+-(IBAction)cancelButtonClicked:(id)sender;
 -(IBAction)pauseButtonClicked:(id)sender;
 
 @end

@@ -14,8 +14,8 @@
 @synthesize aerobicsSlider,restSlider,loopSlider;
 @synthesize aerobicsLable,restLable,loopLable;
 @synthesize minute,second,millisecond;
-@synthesize myTimer;
-@synthesize strSecond,strMinute;
+@synthesize myTimer,restTimer;
+@synthesize strSecond,strMinute,strMillisecond;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -25,21 +25,39 @@
 #pragma mark - View lifecycle
 -(void) myTimerAction:(NSTimer *) timer
 {
-
-    if (intMillisecond%1000==0) {
+  
+ /*   if (intMillisecond%1000==0) {
        //intMillisecond=0;
         intSecond++;
+    } */
+    if (boolDoing) {
+        strMillisecond = [NSString stringWithFormat:@"%@",@"A"];
+    }else {
+        strMillisecond = [NSString stringWithFormat:@"%@", @"R"];
     }
+    intSecond++;
     if (intSecond%60==0) {
         intSecond=0;
         intMinute++;
-        if(intMinute == intAerobicsTimes)
+        if((intMinute == intAerobicsTimes)&&(boolDoing==YES))
         {
+            
             intMinute = 0;
-             
+            intLoopTimes--; 
+            boolDoing=NO;
+            if (intLoopTimes == 0)
+            {
+                
+                [self cancelButtonClicked:nil];
+                strMillisecond = [NSString stringWithFormat:@"%@", @"F"];
+                
+            }
+        }
+        else if ((intMinute == intRestTimes)&&(boolDoing==NO)){
+            intMinute = 0;
+            boolDoing = YES;
         }
     }
-    NSString *strMillisecond = [NSString stringWithFormat:@"%d", intMillisecond];
     if (intSecond<10) {
         strSecond = [NSString stringWithFormat:@"0%d", intSecond];
     }else {
@@ -78,8 +96,6 @@
 }
 -(BOOL)isTimerValid
 {
-    [self startTimer];
-    [self stopTimer];
     if ([myTimer isValid]==YES) {
         return YES;
     }
@@ -90,6 +106,7 @@
     [startButton setHidden:TRUE];
     [pauseButton setHidden:FALSE];
     [cancelButton setHidden:FALSE ];
+    [self setTimerValue];
     [self startTimer];
     [self playSound];
     
@@ -98,10 +115,11 @@
 
 -(IBAction)cancelButtonClicked:(id)sender
 {
-    if([self isTimerValid]==YES){
-        [self stopTimer];
+    if(boolPause==TRUE){
+        [self pauseButtonClicked:nil];
+    
     }
-   
+    [self stopTimer];
     [second setText:@"00"];
     [minute setText:@"00"];
     [millisecond setText:@"0"];
@@ -110,6 +128,7 @@
     [startButton setHidden:FALSE];
     intSecond=0;
     intMinute=0;
+    boolDoing=YES;
 }
 -(IBAction)pauseButtonClicked:(id)sender
 {
@@ -129,6 +148,12 @@
         }
         boolPause=TRUE;
     }
+}
+-(void)setTimerValue
+{
+    intAerobicsTimes=[aerobicsSlider value];
+    intRestTimes=[restSlider value];
+    intLoopTimes=[loopSlider value];
 }
 -(void)setAerobicsLable
 {
@@ -162,6 +187,7 @@
 }
 - (void)viewDidLoad
 {
+    boolDoing=YES;
     intAerobicsTimes=3;
     intRestTimes=3;
     intLoopTimes=3;

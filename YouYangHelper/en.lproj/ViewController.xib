@@ -205,6 +205,7 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<float key="IBUIValue">3</float>
+						<float key="IBUIMinValue">1</float>
 						<float key="IBUIMaxValue">20</float>
 					</object>
 					<object class="IBUILabel" id="195053778">
@@ -279,6 +280,7 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<float key="IBUIValue">3</float>
+						<float key="IBUIMinValue">1</float>
 						<float key="IBUIMaxValue">20</float>
 					</object>
 					<object class="IBUILabel" id="627096162">
@@ -337,7 +339,6 @@
 						<string key="NSFrame">{{23, 388}, {275, 23}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:623</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -781,6 +782,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cancelButtonClicked:">id</string>
+						<string key="pauseButtonClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="cancelButtonClicked:">
+							<string key="name">cancelButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="pauseButtonClicked:">
+							<string key="name">pauseButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="aerobicsLable">UILabel</string>
 						<string key="aerobicsSlider">UISlider</string>
