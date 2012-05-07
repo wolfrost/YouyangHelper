@@ -16,6 +16,7 @@
 @synthesize minute,second,millisecond;
 @synthesize myTimer,restTimer;
 @synthesize strSecond,strMinute,strMillisecond;
+@synthesize intTotalTime,intRestTimes,intAerobicsTimes,intLooptimes;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -41,7 +42,7 @@
         intMinute++;
         if((intMinute == intAerobicsTimes)&&(boolDoing==YES))
         {
-            
+            [self playSound];
             intMinute = 0;
             intLoopTimes--; 
             boolDoing=NO;
@@ -50,10 +51,11 @@
                 
                 [self cancelButtonClicked:nil];
                 strMillisecond = [NSString stringWithFormat:@"%@", @"F"];
-                
+                [self playSound];
             }
         }
         else if ((intMinute == intRestTimes)&&(boolDoing==NO)){
+            [self playSound];
             intMinute = 0;
             boolDoing = YES;
         }
@@ -78,8 +80,8 @@
 }
 -(void)playSound
 {
-    NSString *path = [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] pathForResource:@"Tock" ofType:@"aiff"];
-    
+  //  NSString *path = [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] pathForResource:@"Tock" ofType:@"aiff"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Trill" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundID);
     AudioServicesPlaySystemSound(soundID);
       
@@ -154,6 +156,8 @@
     intAerobicsTimes=[aerobicsSlider value];
     intRestTimes=[restSlider value];
     intLoopTimes=[loopSlider value];
+    intTotalTime =( (intAerobicsTimes + intRestTimes) * intLoopTimes - intRestTimes)*60;
+    
 }
 -(void)setAerobicsLable
 {
@@ -187,10 +191,18 @@
 }
 - (void)viewDidLoad
 {
+    UIDevice* device = [UIDevice currentDevice];
+    BOOL backgroundSupported = NO;
+    if ([device respondsToSelector:@selector(isMultitaskingSupported)])
+        backgroundSupported = device.multitaskingSupported;
+    if (backgroundSupported) {
+        NSLog(@"Supported.");
+    }
+    else {
+        NSLog(@"Not supported.");
+    }
     boolDoing=YES;
-    intAerobicsTimes=3;
-    intRestTimes=3;
-    intLoopTimes=3;
+    [self setTimerValue];   
     [self setAerobicsLable];
     [self setLoopLable];
     [self setRestLable];

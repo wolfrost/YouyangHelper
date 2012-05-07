@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2D8914155628EB00315840 /* Trill.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0A2D8913155628EB00315840 /* Trill.mp3 */; };
+		0A2D891815562B0D00315840 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2D891715562B0D00315840 /* AVFoundation.framework */; };
 		0A472334154BC5AB00287C87 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A472333154BC5AB00287C87 /* UIKit.framework */; };
 		0A472336154BC5AB00287C87 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A472335154BC5AB00287C87 /* Foundation.framework */; };
 		0A472338154BC5AB00287C87 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A472337154BC5AB00287C87 /* CoreGraphics.framework */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A2D8913155628EB00315840 /* Trill.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Trill.mp3; sourceTree = "<group>"; };
+		0A2D891715562B0D00315840 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0A47232F154BC5AB00287C87 /* YouYangHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouYangHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A472333154BC5AB00287C87 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0A472335154BC5AB00287C87 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -40,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A2D891815562B0D00315840 /* AVFoundation.framework in Frameworks */,
 				0AF5BDA215558F4700B1DE7F /* AudioToolbox.framework in Frameworks */,
 				0A472334154BC5AB00287C87 /* UIKit.framework in Frameworks */,
 				0A472336154BC5AB00287C87 /* Foundation.framework in Frameworks */,
@@ -70,6 +75,7 @@
 		0A472332154BC5AB00287C87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A2D891715562B0D00315840 /* AVFoundation.framework */,
 				0AF5BDA115558F4700B1DE7F /* AudioToolbox.framework */,
 				0A472333154BC5AB00287C87 /* UIKit.framework */,
 				0A472335154BC5AB00287C87 /* Foundation.framework */,
@@ -94,6 +100,7 @@
 		0A47233A154BC5AB00287C87 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0A2D8913155628EB00315840 /* Trill.mp3 */,
 				0A47233B154BC5AB00287C87 /* YouYangHelper-Info.plist */,
 				0A47233C154BC5AB00287C87 /* InfoPlist.strings */,
 				0A47233F154BC5AB00287C87 /* main.m */,
@@ -154,6 +161,7 @@
 			files = (
 				0A47233E154BC5AB00287C87 /* InfoPlist.strings in Resources */,
 				0A47234A154BC5AB00287C87 /* ViewController.xib in Resources */,
+				0A2D8914155628EB00315840 /* Trill.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

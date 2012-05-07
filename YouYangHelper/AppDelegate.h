@@ -11,6 +11,10 @@
 @class ViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    UIBackgroundTaskIdentifier bgTask;
+    
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -29,6 +29,7 @@
     self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -46,6 +47,37 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    NSLog(@"Application entered background state.");
+    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        // Clean up any unfinished task business by marking where you.
+        // stopped or ending the task outright.
+        
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    // Start the long-running task and return immediately.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        // Do the work associated with the task, preferably in chunks.
+        // Do the work!  
+        NSInteger t;
+        [_viewController setTimerValue];
+        
+        NSLog(@"Time remaining: %d",[_viewController intTotalTime]);  
+        
+        [NSThread sleepForTimeInterval:t];  
+        // done!  
+        dispatch_async(dispatch_get_main_queue(), ^{ 
+        if (bgTask != UIBackgroundTaskInvalid)
+        {
+            NSLog(@"ne");
+            [application endBackgroundTask:bgTask];
+            bgTask = UIBackgroundTaskInvalid;        
+        }
+        });    
+    });
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

@@ -29,6 +29,7 @@
     NSInteger intAerobicsTimes;
     NSInteger intRestTimes;
     NSInteger intLoopTimes;
+    NSInteger intTotalTime;
     NSString *strSecond;
     NSString *strMinute;
     IBOutlet UILabel *aerobicsLable;
@@ -55,12 +56,18 @@
 @property (nonatomic, retain) UISlider *aerobicsSlider;
 @property (nonatomic, retain) UISlider *restSlider;
 @property (nonatomic, retain) UISlider *loopSlider;
+@property (nonatomic, readwrite) NSInteger intAerobicsTimes;
+@property (nonatomic, readwrite) NSInteger intRestTimes;
+@property (nonatomic, readwrite) NSInteger intLooptimes;
+@property (nonatomic, readwrite) NSInteger intTotalTime;
 -(void)setAerobicsLable;
 -(void)setRestLable;
 -(void)setLoopLable;
 -(void)playSound;
+-(void)startTimer;
 -(void)setTimerValue;
 -(IBAction)cancelButtonClicked:(id)sender;
 -(IBAction)pauseButtonClicked:(id)sender;
+-(IBAction)startButtonClicked:(id) sender;
 
 @end
